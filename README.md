@@ -5,5 +5,4 @@ Code for reproducing most of the results in the [paper](https://arxiv.org/abs/18
 
 Warning: the code is still under development. If you have any problem with the code, please send an email to chongxuanli1991@gmail.com. Any feedback will be appreciated!
 
-We thank the authors of [wgan-gp](igul222/improved_wgan_training
-)for providing their code. Our code is widely adapted from their repositories.
+We thank the authors of [wgan-gp](https://github.com/igul222/improved_wgan_training) for providing their code. Our code is widely adapted from their repositories.
