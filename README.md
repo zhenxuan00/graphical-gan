@@ -10,10 +10,10 @@ We thank the authors of [wgan-gp](https://github.com/igul222/improved_wgan_train
 You may need to download the datasets and save it to the dataset folder except the MNIST case. See details in the corresponding files of the dataset.
 
 If you find the code is useful, please cite our paper!
-``@inproceedings{chen2017population,
-  title={Population Matching Discrepancy and Applications in Deep Learning},
-  author={Chen, Jianfei and Chongxuan, LI and Ru, Yizhong and Zhu, Jun},
-  booktitle={Advances in Neural Information Processing Systems},
-  pages={6263--6275},
-  year={2017}
-}``
+
+@article{li2018graphical,
+  title={Graphical Generative Adversarial Networks},
+  author={Li, Chongxuan and Welling, Max and Zhu, Jun and Zhang, Bo},
+  journal={arXiv preprint arXiv:1804.03429},
+  year={2018}
+}
