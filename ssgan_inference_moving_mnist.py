@@ -544,11 +544,11 @@ disc_params = lib.params_with_name('Discriminator')
 
 if MODE == 'local_ep':
     rec_penalty = None
-    gen_cost, disc_cost, _, _, gen_train_op, disc_train_op = lib.objs.gan_inference.weighted_ampce(disc_fake, disc_real, ratio, gen_params+ext_params, disc_params, lr=LR, beta1=BETA1, rec_penalty=rec_penalty)
+    gen_cost, disc_cost, _, _, gen_train_op, disc_train_op = lib.objs.gan_inference.weighted_local_epce(disc_fake, disc_real, ratio, gen_params+ext_params, disc_params, lr=LR, beta1=BETA1, rec_penalty=rec_penalty)
 
 elif MODE == 'local_epce-z':
     rec_penalty = LAMBDA*lib.utils.distance.distance(real_x, rec_x, 'l2')
-    gen_cost, disc_cost, _, _, gen_train_op, disc_train_op = lib.objs.gan_inference.weighted_ampce(disc_fake, disc_real, ratio, gen_params+ext_params, disc_params, lr=LR, beta1=BETA1, rec_penalty=rec_penalty)
+    gen_cost, disc_cost, _, _, gen_train_op, disc_train_op = lib.objs.gan_inference.weighted_local_epce(disc_fake, disc_real, ratio, gen_params+ext_params, disc_params, lr=LR, beta1=BETA1, rec_penalty=rec_penalty)
 
 elif MODE == 'ali':
     rec_penalty = None
