@@ -507,8 +507,8 @@ losses
 real_x_unit = tf.placeholder(tf.float32, shape=[BATCH_SIZE, LEN, OUTPUT_DIM])
 real_x = 2*((tf.cast(real_x_unit, tf.float32)/256.)-.5)
 q_z_l_pre = Extractor(real_x)
-q_z_g = G_Extractor(real_x)
-q_z_l = DynamicExtractor(q_z_l_pre)
+q_z_g = G_Extractor(real_x)  # q(h|x)
+q_z_l = DynamicExtractor(q_z_l_pre)  # q(v|x)
 rec_x = Generator(q_z_g, q_z_l)
 
 p_z_l_0 = tf.random_normal([BATCH_SIZE, DIM_LATENT_L])
