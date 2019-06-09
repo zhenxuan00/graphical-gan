@@ -313,11 +313,11 @@ def weighted_local_epce(disc_fake_list, disc_real_list, ratio_list, gen_params, 
         gen_cost += ratio * tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
             logits=disc_fake, 
             labels=tf.ones_like(disc_fake)
-        ))
+        ))  # -log(sigmoid(disc_fake))
         gen_cost += ratio * tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
             logits=disc_real, 
             labels=tf.zeros_like(disc_real)
-        ))
+        ))  # -log(1-sigmoid(disc_real))
         gen_debug_list.append(ratio * tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
             logits=disc_fake, 
             labels=tf.ones_like(disc_fake)))+ 
