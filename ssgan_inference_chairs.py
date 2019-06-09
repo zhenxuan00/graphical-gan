@@ -518,11 +518,16 @@ fake_x = Generator(p_z_g, p_z_l)
 
 if MODE in ['local_ep', 'local_epce-z']:
     disc_fake, disc_real = [],[]
+    # p ~ generative model
+    # q ~ recognition model
     for i in xrange(LEN-1):
+        # z_l ~ v
         disc_fake.append(DynamicDiscrminator(p_z_l[:,i,:], p_z_l[:,i+1,:]))
         disc_real.append(DynamicDiscrminator(q_z_l[:,i,:], q_z_l[:,i+1,:]))
+    # z_g ~ h
     disc_fake.append(ZGDiscrminator(p_z_g))
     disc_real.append(ZGDiscrminator(q_z_g))
+    # x ~ x
     disc_fake.append(Discriminator(fake_x, p_z_g, p_z_l))
     disc_real.append(Discriminator(real_x, q_z_g, q_z_l))
 
