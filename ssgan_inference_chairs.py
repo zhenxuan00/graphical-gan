@@ -519,6 +519,12 @@ q_z_l_pre = Extractor(real_x)
 q_z_g = G_Extractor(real_x)  # to remove
 q_z_l = DynamicExtractor(q_z_l_pre)  # q(v|x)
 rec_x = Generator(q_z_g, q_z_l)
+# q_z_g_all = []
+# for i in range(DIM_LATENT_C):
+#   one_hot_c_g = onehot(i, num_class=DIM_LATENT_C)
+#   q_z_g_all.append(concat([one_hot_c_g, q_z_g]))
+#
+
 
 p_z_l_0 = tf.random_normal([BATCH_SIZE, DIM_LATENT_L])
 p_z_l = DynamicGenerator(p_z_l_0)
@@ -529,6 +535,8 @@ p_z_l = DynamicGenerator(p_z_l_0)
 # p_h_g = tf.random_normal([BATCH_SIZE, DIM_LATENT_H])
 # DIM_LATENT_G = DIM_LATENT_C + DIM_LATENT_H
 # p_z_g = concat([p_c_g, p_z_g], dim=1)
+
+
 p_z_g = tf.random_normal([BATCH_SIZE, DIM_LATENT_G])
 fake_x = Generator(p_z_g, p_z_l)
 
@@ -542,9 +550,17 @@ if MODE in ['local_ep', 'local_epce-z']:
         disc_real.append(DynamicDiscrminator(q_z_l[:,i,:], q_z_l[:,i+1,:]))
     # z_g ~ h
     disc_fake.append(ZGDiscrminator(p_z_g))
+    # temp = []
+    # for i in range(DIM_LATENT_C):
+    #   temp.append(ZGDiscriminator(q_z_g_all[i]))
+    # disc_real.append(temp)
     disc_real.append(ZGDiscrminator(q_z_g))
-    # x ~ x
+
     disc_fake.append(Discriminator(fake_x, p_z_g, p_z_l))
+    # temp = []
+    # for i in range(DIM_LATENT_C):
+    #   temp.append(Discriminator(real_x, q_z_g_all[i], q_z_l))
+    # disc_real.append(temp)
     disc_real.append(Discriminator(real_x, q_z_g, q_z_l))
 
 elif MODE in ['ali', 'alice-z']:
