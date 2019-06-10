@@ -513,6 +513,15 @@ rec_x = Generator(q_z_g, q_z_l)
 
 p_z_l_0 = tf.random_normal([BATCH_SIZE, DIM_LATENT_L])
 p_z_l = DynamicGenerator(p_z_l_0)
+# by fanbao: modify p_z_g
+# DIM_LATENT_C_1 = 10
+# DIM_LATENT_C_2 = 10
+# DIM_LATENT_H = 128
+# p_c1_g = onehot(categorical(num_class=DIM_LATENT_C, batch_size=BATCH_SIZE))
+# p_c2_g = onehot(categorical(num_class=DIM_LATENT_C_2, batch_size=BATCH_SIZE))
+# p_h_g = tf.random_normal([BATCH_SIZE, DIM_LATENT_H])
+# DIM_LATENT_G = DIM_LATENT_C_1 + DIM_LATENT_C_2 + DIM_LATENT_H
+# p_z_g = concat([p_c1_g, p_c2_g, p_z_g], dim=1)
 p_z_g = tf.random_normal([BATCH_SIZE, DIM_LATENT_G])
 fake_x = Generator(p_z_g, p_z_l)
 
