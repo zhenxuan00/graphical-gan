@@ -251,8 +251,12 @@ def G_Extractor(inputs):
     output = LeakyReLU(output)
 
     output = tf.reshape(output, [BATCH_SIZE, 4*4*8*DIM])
+    # by fanbao:
+    # output = lib.ops.linear.Linear('Extractor.G.Output', 4*4*8*DIM, DIM_LATENT_H, output)
     output = lib.ops.linear.Linear('Extractor.G.Output', 4*4*8*DIM, DIM_LATENT_G, output)
 
+    # by fanbao:
+    # tf.reshape(output, [BATCH_SIZE, DIM_LATENT_H])
     return tf.reshape(output, [BATCH_SIZE, DIM_LATENT_G])
 
 if MODE in ['local_ep', 'local_epce-z']:
@@ -507,21 +511,24 @@ losses
 real_x_unit = tf.placeholder(tf.float32, shape=[BATCH_SIZE, LEN, OUTPUT_DIM])
 real_x = 2*((tf.cast(real_x_unit, tf.float32)/256.)-.5)
 q_z_l_pre = Extractor(real_x)
-q_z_g = G_Extractor(real_x)  # q(h|x)
+# by fanbao:
+# q_h_g = G_Extractor(real_x)
+# q_c_g_dist = C_Extractor(real_x)
+# q_c_g = sample(q_c_g_dist)
+# q_z_g = concat([q_h_g, q_c_g], dim=1)
+q_z_g = G_Extractor(real_x)  # to remove
 q_z_l = DynamicExtractor(q_z_l_pre)  # q(v|x)
 rec_x = Generator(q_z_g, q_z_l)
 
 p_z_l_0 = tf.random_normal([BATCH_SIZE, DIM_LATENT_L])
 p_z_l = DynamicGenerator(p_z_l_0)
 # by fanbao: modify p_z_g
-# DIM_LATENT_C_1 = 10
-# DIM_LATENT_C_2 = 10
+# DIM_LATENT_C = 10
 # DIM_LATENT_H = 128
-# p_c1_g = onehot(categorical(num_class=DIM_LATENT_C, batch_size=BATCH_SIZE))
-# p_c2_g = onehot(categorical(num_class=DIM_LATENT_C_2, batch_size=BATCH_SIZE))
+# p_c_g = onehot(categorical(num_class=DIM_LATENT_C, batch_size=BATCH_SIZE))
 # p_h_g = tf.random_normal([BATCH_SIZE, DIM_LATENT_H])
-# DIM_LATENT_G = DIM_LATENT_C_1 + DIM_LATENT_C_2 + DIM_LATENT_H
-# p_z_g = concat([p_c1_g, p_c2_g, p_z_g], dim=1)
+# DIM_LATENT_G = DIM_LATENT_C + DIM_LATENT_H
+# p_z_g = concat([p_c_g, p_z_g], dim=1)
 p_z_g = tf.random_normal([BATCH_SIZE, DIM_LATENT_G])
 fake_x = Generator(p_z_g, p_z_l)
 
